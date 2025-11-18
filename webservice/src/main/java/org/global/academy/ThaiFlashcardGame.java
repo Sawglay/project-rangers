@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import javax.swing.Timer;
 
 class Flashcard {
     protected String front;
@@ -118,11 +119,13 @@ public class ThaiFlashcardGame extends JFrame {
                 clicked.setBackground(Color.RED);
             }
 
-            Timer t = new Timer(650, evt -> {
-                for (JButton b : answerButtons)
-                    b.setBackground(Color.LIGHT_GRAY);
-                index++;
-                loadNextCard();
+            Timer t = new Timer(650, new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    for (JButton b : answerButtons)
+                        b.setBackground(Color.LIGHT_GRAY);
+                    index++;
+                    loadNextCard();
+                }
             });
             t.setRepeats(false);
             t.start();
