@@ -1,140 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome ✨</title>
+<meta charset="UTF-8">
+<title>Ranger Access Portal</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Poppins", sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(145deg, #ffe1f0, #d7e9ff);
-            overflow: hidden;
-            animation: fadeIn 1.2s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        /* Landing container */
-        
-        .box {
-            background: white;
-            padding: 30px 50px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.12);
-            animation: popIn 0.8s ease;
-        }
-        
-        @keyframes popIn {
-            0% {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        h1 {
-            font-size: 28px;
-            color: #ff6fa8;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        p {
-            color: #555;
-            margin-bottom: 25px;
-        }
-        /* Button Styles */
-        
-        .btn {
-            padding: 10px 22px;
-            font-size: 16px;
-            border-radius: 30px;
-            border: none;
-            background: #ff8ccf;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-            display: inline-block;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            transform: scale(1.08);
-            background: #ff6fbf;
-            box-shadow: 0px 6px 18px rgba(255, 107, 174, 0.5);
-        }
-        /* Floating hearts animation */
-        
-        .heart {
-            position: absolute;
-            color: #ff7bb3;
-            font-size: 18px;
-            animation: floatHearts 4s infinite ease-in-out;
-        }
-        
-        @keyframes floatHearts {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            30% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-200px) rotate(25deg);
-                opacity: 0;
-            }
-        }
-    </style>
+<style>
+    body {
+        margin:0;
+        height:100vh;
+        background: #000 url('https://i.ibb.co/S3rG9t4/thunder-tech-bg.jpg') center/cover no-repeat fixed;
+        font-family: 'Orbitron', sans-serif;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        overflow:hidden;
+        color:white;
+    }
+
+    /* Thunder Flash Effect */
+    .flash-screen {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255,255,255,0.8);
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        opacity: 0;
+        animation: flashEffect 6s infinite;
+    }
+
+    @keyframes flashEffect {
+        0%, 80%, 100% { opacity: 0; }
+        82% { opacity: 1; }
+        83% { opacity: 0; }
+        84% { opacity: 0.7; }
+        85% { opacity: 0; }
+    }
+
+    h1 {
+        font-size:30px;
+        text-shadow:0 0 10px cyan,0 0 30px cyan;
+    }
+
+    a {
+        display:inline-block;
+        margin-top:10px;
+        padding:10px 30px;
+        border:2px solid cyan;
+        border-radius:8px;
+        color:white;
+        text-decoration:none;
+        font-size:18px;
+        transition:0.25s;
+    }
+
+    a:hover {
+        background:cyan;
+        color:black;
+        box-shadow:0 0 20px cyan;
+    }
+</style>
+
 </head>
-
 <body>
+<div class="flash-screen"></div>
 
-    <div class="box">
-        <h1>Welcome 🌸</h1>
-        <p> </p>
-        <a href="login.html" class="btn">Go to Login 💖</a>
-    </div>
-
-    <!-- Floating hearts -->
-    <script>
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.textContent = "❤️";
-
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.bottom = "0px";
-            heart.style.fontSize = (Math.random() * 15 + 15) + "px";
-            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 4500);
-        }
-
-        setInterval(createHeart, 500);
-    </script>
-
+<div>
+    <h1>⚡ TECH NINJA RANGER HQ ⚡</h1>
+    <a href="login.html">ENTER CONSOLE</a>
+</div>
 </body>
-
 </html>
