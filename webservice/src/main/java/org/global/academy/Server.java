@@ -1,11 +1,12 @@
 package org.global.academy;
 
-import static spark.Spark.*;
-
 import com.google.gson.Gson;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.io.IOException;
+
+import static spark.Spark.before;
+import static spark.Spark.options;
+import static spark.Spark.port;
+import static spark.Spark.post;
+import static spark.Spark.staticFiles;
 
 public class Server {
     public static void main(String[] args) {
@@ -52,18 +53,14 @@ public class Server {
     }
 
     static class LoginResponse {
-        String token;
         String username;
         LoginResponse(String t, String u) {
-            token = t;
             username = u;
         }
     }
 
     static class ErrorResponse {
-        String error;
         ErrorResponse(String e) {
-            error = e;
         }
     }
 }

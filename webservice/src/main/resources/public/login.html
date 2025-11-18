@@ -7,133 +7,197 @@
     <title>Secure Login 🔐</title>
 
     <style>
-        /* 1. Global Reset & Typography */
-        
+        /* Global layout & background */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            /* Light gray background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffe1f0, #d7e9ff);
+            overflow: hidden;
+            animation: fadeIn 0.9s ease-in-out;
         }
-        /* 2. Login Container Styling */
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating hearts (background) */
+        .heart {
+            position: absolute;
+            color: #ff7bb3;
+            font-size: 18px;
+            animation: floatHearts 4s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes floatHearts {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            100% {
+                transform: translateY(-220px) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* Login card */
         .login-container {
             background-color: #ffffff;
-            /* White card */
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow */
+            padding: 35px 32px 30px;
+            border-radius: 18px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
             width: 100%;
-            max-width: 400px;
-            /* Max width for better form presentation */
+            max-width: 380px;
             text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: popIn 0.7s ease-out;
         }
-        
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .login-container h2 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 24px;
-            font-weight: 600;
+            color: #ff6fa8;
+            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: 700;
         }
-        /* 3. Input and Label Styling */
-        
+
+        .login-subtitle {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 24px;
+        }
+
+        /* Input and label styling */
         label {
             display: block;
-            /* Make label take full width */
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             color: #555;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
         }
-        
+
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px 15px;
-            margin-top: 8px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 11px 13px;
+            margin-top: 6px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
-            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+            font-size: 15px;
         }
-        
+
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #007bff;
-            /* Highlight on focus */
+            border-color: #ff8ccf;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+            box-shadow: 0 0 6px rgba(255, 140, 207, 0.35);
+            transform: translateY(-1px);
         }
-        /* 4. Button Styling */
-        
+
+        /* Button styling */
         button[type="submit"] {
-            background-color: #007bff;
-            /* Primary blue color */
+            background: linear-gradient(135deg, #ff8ccf, #ff6fbf);
             color: white;
-            padding: 12px 20px;
+            padding: 11px 18px;
             border: none;
-            border-radius: 8px;
+            border-radius: 999px;
             cursor: pointer;
             width: 100%;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            transition: background-color 0.3s, transform 0.1s;
-            margin-top: 10px;
+            margin-top: 8px;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s;
         }
-        
+
         button[type="submit"]:hover {
-            background-color: #0056b3;
-            /* Darker blue on hover */
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 111, 191, 0.6);
+            filter: brightness(1.02);
         }
-        
+
         button[type="submit"]:active {
-            transform: scale(0.99);
-            /* Slight press effect */
+            transform: translateY(0) scale(0.99);
+            box-shadow: 0 3px 8px rgba(255, 111, 191, 0.4);
         }
-        /* 5. Output Area Styling */
-        
+
+        /* Output area */
         #output {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #e9ecef;
-            /* Light background for output */
-            border-radius: 8px;
+            margin-top: 18px;
+            padding: 12px;
+            background-color: #f9f9ff;
+            border-radius: 10px;
             white-space: pre-wrap;
             text-align: left;
-            font-size: 13px;
-            color: #333;
-            border: 1px solid #ccc;
+            font-size: 12px;
+            color: #555;
+            border: 1px dashed #d0c7ff;
+            min-height: 18px;
+        }
+
+        /* Small footer / hint */
+        .hint {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #999;
         }
     </style>
 </head>
 
 <body>
     <div class="login-container">
-        <h2>Test Login</h2>
+        <h2>Welcome Back 💖</h2>
+        <div class="login-subtitle">Log in securely to continue</div>
+
         <form id="loginForm">
             <label>
-                Username:
-                <input type="text" id="username" required>
+                Username
+                <input type="text" id="username" required placeholder="Enter your username">
             </label>
             <label>
-                Password:
-                <input type="password" id="password" required>
+                Password
+                <input type="password" id="password" required placeholder="••••••••">
             </label>
-            <button type="submit">Login</button>
+            <button type="submit">Login 🔐</button>
         </form>
 
         <pre id="output"></pre>
+        <div class="hint">Use your demo credentials (e.g. alice / secret)</div>
     </div>
 
+    <!-- Floating hearts background -->
     <script>
-        document.getElementById("loginForm").addEventListener("submit", async(e) => {
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.textContent = "❤️";
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.bottom = "0px";
+            heart.style.fontSize = (Math.random() * 16 + 16) + "px";
+            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 4500);
+        }
+        setInterval(createHeart, 700);
+
+        // Your existing login logic
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const username = document.getElementById("username").value.trim();
@@ -147,20 +211,15 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        username,
-                        password
-                    })
+                    body: JSON.stringify({ username, password })
                 });
 
-                const text = await res.text(); // raw response
+                const text = await res.text();
                 output.textContent = `Status: ${res.status}\n\n${text}`;
 
-                // Success block (HTTP 200)
                 if (res.status === 200) {
                     try {
                         const data = JSON.parse(text);
-                        // Save login data and redirect
                         localStorage.setItem('username', data.username);
                         localStorage.setItem('token', data.token);
                         window.location.href = 'welcome.html';
