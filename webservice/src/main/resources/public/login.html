@@ -5,79 +5,127 @@
 <title>Tech Ninja Login</title>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
     body {
-        margin:0;
-        height:100vh;
-        background: #000 url('https://i.ibb.co/S3rG9t4/thunder-tech-bg.jpg') center/cover no-repeat fixed;
-        font-family:'Orbitron', sans-serif;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        overflow:hidden;
-        color:white;
+        margin: 0;
+        height: 100vh;
+        background: #050816 url('https://i.ibb.co/S3rG9t4/thunder-tech-bg.jpg') center/cover no-repeat fixed;
+        font-family: 'Orbitron', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: white;
     }
 
+    /* Softer cute flash */
     .flash-screen {
         position: fixed;
-        top: 0; left: 0;
+        top: 0; 
+        left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(255,255,255,0.85);
-        pointer-events:none;
-        opacity:0;
-        mix-blend-mode:overlay;
-        animation: flashEffect 6s infinite;
+        background: rgba(158, 217, 255, 0.55);
+        pointer-events: none;
+        opacity: 0;
+        mix-blend-mode: screen;
+        animation: flashEffect 7s infinite;
     }
 
     @keyframes flashEffect {
-        0%,80%,100%{opacity:0}
-        82%{opacity:1}
-        83%{opacity:0}
-        84%{opacity:0.7}
-        85%{opacity:0}
+        0%, 82%, 100% { opacity: 0; }
+        84% { opacity: 0.7; }
+        86% { opacity: 0; }
     }
 
     .panel {
-        background:rgba(0,0,0,0.75);
-        border:2px solid cyan;
-        width:340px;
-        padding:25px;
-        border-radius:12px;
-        box-shadow:0 0 18px cyan;
-        text-align:center;
+        background: rgba(6, 8, 24, 0.85);
+        border: 2px solid #7ff0ff;
+        width: 360px;
+        padding: 28px 26px 24px;
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(127, 240, 255, 0.7);
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    h2 {
+        margin: 0 0 4px;
+        font-size: 22px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px #7ff0ff;
+    }
+
+    .subtitle {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        margin-bottom: 18px;
+        opacity: 0.85;
     }
 
     input {
-        width:100%;
-        padding:10px;
-        margin:8px 0;
-        background:black;
-        border:1px solid cyan;
-        border-radius:6px;
-        color:white;
-        font-size:14px;
+        width: 100%;
+        padding: 10px 12px;
+        margin: 6px 0;
+        background: rgba(5, 8, 24, 0.95);
+        border: 1px solid #7ff0ff;
+        border-radius: 10px;
+        color: white;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+        outline: none;
+        transition: 0.25s;
+    }
+
+    input::placeholder {
+        color: #a6e9ff;
+        font-size: 12px;
+    }
+
+    input:focus {
+        box-shadow: 0 0 10px #7ff0ff;
+        transform: translateY(-1px);
     }
 
     button {
-        width:100%;
-        margin-top:10px;
-        padding:10px;
-        background:cyan;
-        border:none;
-        border-radius:6px;
-        font-weight:bold;
-        color:black;
-        cursor:pointer;
+        width: 100%;
+        margin-top: 12px;
+        padding: 11px;
+        background: linear-gradient(135deg, #7ff0ff, #a5b4fc);
+        border: none;
+        border-radius: 999px;
+        font-weight: bold;
+        color: #020617;
+        cursor: pointer;
+        letter-spacing: 1px;
+        font-size: 13px;
+        transition: 0.25s;
+        box-shadow: 0 0 14px rgba(165, 180, 252, 0.8);
     }
 
     button:hover {
-        box-shadow:0 0 18px cyan;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 0 22px rgba(165, 180, 252, 1);
     }
 
     #output {
-        font-size:11px;
-        margin-top:10px;
-        white-space:pre-wrap;
+        font-size: 11px;
+        margin-top: 10px;
+        white-space: pre-wrap;
+        font-family: "Courier New", monospace;
+        color: #c4efff;
+        text-align: left;
+        max-height: 90px;
+        overflow-y: auto;
+        padding-top: 4px;
+    }
+
+    /* Small emoji badge */
+    .badge {
+        display: inline-block;
+        margin-bottom: 8px;
+        font-size: 24px;
     }
 </style>
 </head>
@@ -86,41 +134,46 @@
 <div class="flash-screen"></div>
 
 <div class="panel">
-    <h2>LOGIN ACCESS</h2>
+    <div class="badge">⚡🧑‍💻⚡</div>
+    <h2>TECH NINJA LOGIN</h2>
+    <div class="subtitle">Student Ranger Access Console</div>
+
     <form id="loginForm">
-        <input id="username" type="text" placeholder="Username" required>
-        <input id="password" type="password" placeholder="Password" required>
+        <input id="username" type="text" placeholder="Enter ninja codename" required>
+        <input id="password" type="password" placeholder="Secret access key" required>
         <button type="submit">ENGAGE</button>
     </form>
+
     <pre id="output"></pre>
 </div>
 
 <script>
-document.getElementById("loginForm").addEventListener("submit", async(e)=>{
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username=document.getElementById("username").value.trim();
-    const password=document.getElementById("password").value.trim();
-    const output=document.getElementById("output");
-    output.textContent="Authenticating...";
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const output = document.getElementById("output");
+    output.textContent = "Authenticating ninja credentials...";
 
     try {
-        const res=await fetch("/login",{
-            method:"POST",
-            headers:{ "Content-Type":"application/json" },
-            body:JSON.stringify({username,password})
+        const res = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
         });
-        const txt=await res.text();
-        output.textContent=`STATUS: ${res.status}\n${txt}`;
 
-        if(res.status===200){
-            const d=JSON.parse(txt);
-            localStorage.setItem("username",d.username);
-            localStorage.setItem("token",d.token);
-            window.location="welcome.html";
+        const txt = await res.text();
+        output.textContent = `STATUS: ${res.status}\n${txt}`;
+
+        if (res.status === 200) {
+            const d = JSON.parse(txt);
+            localStorage.setItem("username", d.username);
+            localStorage.setItem("token", d.token);
+            window.location = "welcome.html";
         }
-    } catch(err) {
-        output.textContent="Network Error: "+err;
+    } catch (err) {
+        output.textContent = "Network Error: " + err;
     }
 });
 </script>
