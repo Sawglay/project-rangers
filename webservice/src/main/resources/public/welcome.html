@@ -281,7 +281,7 @@
       card3d.classList.remove('flipped');
 
       try {
-        const res = await fetch('/showrandcard');
+        const res = await fetch('/randflashcard');
         if (!res.ok) {
           setStatus('Failed to load card: ' + res.status);
           return;
