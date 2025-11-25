@@ -1,99 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Ranger Access Portal</title>
+  <meta charset="UTF-8">
+  <title>Thai Language Training | Global Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-body {
-    margin: 0;
-    height: 100vh;
-    background: #3b2b5f url('https://i.ibb.co/S3rG9t4/thunder-tech-bg.jpg') center/cover no-repeat fixed;
-    font-family: 'Orbitron', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color: white;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Thunder flash effect */
-.flash-screen {
-    position: fixed;
-    top: 0; 
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(180, 140, 255, 0.5);
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    opacity: 0;
-    animation: flashEffect 6s infinite;
-}
+    body {
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Poppins", sans-serif;
+      color: white;
+    }
 
-@keyframes flashEffect {
-    0%, 80%, 100% { opacity: 0; }
-    82% { opacity: 1; }
-    83% { opacity: 0; }
-    84% { opacity: 0.6; }
-    85% { opacity: 0; }
-}
+    .main-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 60px 45px;
+      border-radius: 18px;
+      text-align: center;
+      max-width: 520px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+      animation: pop 0.7s ease;
+    }
 
-/* Center card */
-.portal-box {
-    background: rgba(0,0,0,0.6);
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(124, 96, 255, 0.8);
-    backdrop-filter: blur(8px);
-}
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    text-shadow: 0 0 8px #9f7bff, 0 0 16px #6f4cff;
-}
+    .logo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      margin-bottom: 25px;
+      border: 3px solid cyan;
+      padding: 5px;
+      background: black;
+    }
 
-p {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 25px;
-}
+    h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
 
-/* Button */
-a {
-    display: inline-block;
-    padding: 12px 35px;
-    background: linear-gradient(135deg, #7f5bff, #a78bfa);
-    border-radius: 30px;
-    color: white;
-    text-decoration: none;
-    letter-spacing: 1px;
-    font-size: 15px;
-    transition: 0.3s ease;
-    box-shadow: 0 0 12px #9f7bff;
-}
+    .subtitle {
+      font-size: 0.95rem;
+      color: #cbd5e0;
+      margin-bottom: 35px;
+    }
 
-a:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #c4b5fd;
-    background: linear-gradient(135deg, #a78bfa, #7f5bff);
-}
-</style>
+    .start-btn {
+      display: inline-block;
+      padding: 15px 45px;
+      border-radius: 30px;
+      background: transparent;
+      color: cyan;
+      border: 2px solid cyan;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    .start-btn:hover {
+      background: cyan;
+      color: black;
+      box-shadow: 0 0 20px cyan;
+    }
+
+    .info-row {
+      margin-top: 35px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .pill {
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #e2e8f0;
+    }
+
+    @media(max-width:600px){
+      .main-box{
+        padding:40px 25px;
+      }
+      h1{
+        font-size:1.5rem;
+      }
+    }
+
+  </style>
 </head>
-
 <body>
 
-<div class="flash-screen"></div>
+<div class="main-box">
 
-<div class="portal-box">
-    <h1>⚡ TECH NINJA RANGER HQ ⚡</h1>
-    <p>Welcome, student guardian of technology 🛡️<br> Click below to access your console.</p>
-    <a href="login.html">ENTER CONSOLE</a>
+  <img src="https://crown.edu.mm/wp-content/uploads/2025/07/514248721_122241211796213274_3497235330759065256_n.jpg" 
+       class="logo"
+       onerror="this.style.display='none'">
+
+  <h1>Thai Language Training</h1>
+
+  <p class="subtitle">
+    Master Thai alphabet with interactive flashcards.<br>
+    Learn smarter. Learn faster.
+  </p>
+
+  <a href="login.html" class="start-btn">START LEARNING</a>
+
+  <div class="info-row">
+    <div class="pill">📚 Flashcards</div>
+    <div class="pill">🎮 Game Mode</div>
+    <div class="pill">⚡ Fast Learning</div>
+  </div>
+
 </div>
 
 </body>
