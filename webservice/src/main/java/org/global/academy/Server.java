@@ -50,7 +50,7 @@ public class Server {
     public static void main(String[] args) {
 
         // Port and static files (HTML)
-        port(4567);                      // http://localhost:4567
+        port(8080);                      // http://localhost:4567
         staticFiles.location("/public"); // src/main/resources/public
 
         Gson gson = new Gson();
@@ -99,6 +99,6 @@ public class Server {
             return gson.toJson(card);
         });
 
-        System.out.println("✅ Server running on http://localhost:4567");
+        System.out.println("✅ Server running on http://localhost:8080");
     }
 }
