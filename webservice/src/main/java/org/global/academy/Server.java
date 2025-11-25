@@ -16,6 +16,7 @@ public class Server {
 
     // Simple flashcard class for the web API
     static class Flashcard {
+
         String front;
         String back;
 
@@ -27,6 +28,7 @@ public class Server {
 
     // Response classes for login
     static class LoginResponse {
+
         String username;
         String token;
 
@@ -37,6 +39,7 @@ public class Server {
     }
 
     static class ErrorResponse {
+
         String error;
 
         ErrorResponse(String error) {
@@ -74,11 +77,19 @@ public class Server {
         // ------------- THAI FLASHCARDS -------------
         // This is the route your welcome.html calls: /showrandcard
         List<Flashcard> cards = Arrays.asList(
-                new Flashcard("ก (กอ ไก่)", "ko kai - mid class"),
-                new Flashcard("ข (ขอ ไข่)", "kho khai - high class"),
-                new Flashcard("ค (คอ ควาย)", "kho khwai - low class"),
-                new Flashcard("ง (งอ งู)", "ngo ngu - low class"),
-                new Flashcard("จ (จอ จาน)", "cho chan - mid class")
+                new Flashcard("ง (งอ งู)", "ngo ngu = snake"),
+                new Flashcard("จ (จอ จาน)", "cho chan = plate"),
+                new Flashcard("ฉ (ฉอ ฉิ่ง)", "cho ching = cymbals"),
+                new Flashcard("ช (ชอ ช้าง)", "cho chang = elephant"),
+                new Flashcard("ซ (ซอ โซ่)", "so so = chain"),
+                new Flashcard("ฌ (ฌอ เฌอ)", "cho choe = tree"),
+                new Flashcard("ญ (ญอ หญิง)", "yo ying = woman"),
+                new Flashcard("ฎ (ฎอ ชฎา)", "do cha-da = crown / head-dress"),
+                new Flashcard("ฏ (ฏอ ปฏัก)", "to pa-tak = spear"),
+                new Flashcard("ฐ (ฐอ ฐาน)", "tho than = base"),
+                new Flashcard("ฑ (ฑอ มณโฑ)", "tho mon-tho = Mandodari (character)"),
+                new Flashcard("ฒ (ฒอ ผู้เฒ่า)", "tho phu-thao = old person"),
+                new Flashcard("ก (กอ ไก่)", "ko kai - mid class")
         );
 
         get("/showrandcard", (req, res) -> {
