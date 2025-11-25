@@ -1,45 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <title>Thai Flashcards | Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: black;
-      color: cyan;
-      font-family: Arial;
+      font-family: "Poppins", Arial, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      color: #e2e8f0;
     }
 
-    h1 {
-      font-size: 3em;
+    .shell {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 22px;
+      padding: 32px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 40px rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.6s ease;
     }
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      background: cyan;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>✅ Welcome Alice!</h1>
-  <p>You have successfully logged in.</p>
-
-  <button onclick="logout()">Logout</button>
-
-  <script>
-    function logout() {
-      window.location.href = "login.html";
-    }
-  </script>
-
-</body>
-</html>
+    @keyframes fadeUp {
+      from { opacity: 0
