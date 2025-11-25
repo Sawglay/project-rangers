@@ -1,66 +1,93 @@
 package org.global.academy;
 
-import com.google.gson.Gson;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-import static spark.Spark.before;
-import static spark.Spark.options;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 public class Server {
-    public static void main(String[] args) {
-        port(8080);
-        staticFiles.location("/public");
-        // Simple CORS
-        before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*"); // or specific origin
-            response.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-            response.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
-        });
-        options("/*", (req, res) -> {
-            String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
-            if (accessControlRequestHeaders != null) {
-                res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-            }
-            String accessControlRequestMethod = req.headers("Access-Control-Request-Method");
-            if (accessControlRequestMethod != null) {
-                res.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-            }
-            return "OK";
-        });
 
-        Gson gson = new Gson();
+    // Simple flashcard class for the web API
+    static class Flashcard {
+        String front;
+        String back;
 
-        post("/login", (req, res) -> {
-            System.out.println("Received /login request with body: " + req.body());
-            LoginRequest lr = gson.fromJson(req.body(), LoginRequest.class);
-            // TODO: validate username/password
-            if ("alice".equals(lr.username) && "secret".equals(lr.password)) {
-                res.type("application/json");
-                return gson.toJson(new LoginResponse("a-fake-token", lr.username));
-            } else {
-                res.status(401);
-                res.type("application/json");
-                return gson.toJson(new ErrorResponse("Invalid credentials"));
-            }
-        });
-    }
-    
-    static class LoginRequest {
-        String username;
-        String password;
+        Flashcard(String front, String back) {
+            this.front = front;
+            this.back = back;
+        }
     }
 
+    // Response classes for login
     static class LoginResponse {
         String username;
-        LoginResponse(String t, String u) {
-            username = u;
+        String token;
+
+        LoginResponse(String username, String token) {
+            this.username = username;
+            this.token = token;
         }
     }
 
     static class ErrorResponse {
-        ErrorResponse(String e) {
+        String error;
+
+        ErrorResponse(String error) {
+            this.error = error;
         }
+    }
+
+    public static void main(String[] args) {
+
+        // Port and static files (HTML)
+        port(4567);                      // http://localhost:4567
+        staticFiles.location("/public"); // src/main/resources/public
+
+        Gson gson = new Gson();
+
+        // ---------------- LOGIN ----------------
+        post("/login", (req, res) -> {
+            res.type("application/json");
+
+            System.out.println("Received /login request with body: " + req.body());
+
+            JsonObject body = gson.fromJson(req.body(), JsonObject.class);
+            String username = body.get("username").getAsString();
+            String password = body.get("password").getAsString();
+
+            if ("alice".equals(username) && "secret".equals(password)) {
+                res.status(200);
+                return gson.toJson(new LoginResponse(username, "token123"));
+            } else {
+                res.status(401);
+                return gson.toJson(new ErrorResponse("Invalid username or password"));
+            }
+        });
+
+        // ------------- THAI FLASHCARDS -------------
+        // This is the route your welcome.html calls: /showrandcard
+        List<Flashcard> cards = Arrays.asList(
+                new Flashcard("ก (กอ ไก่)", "ko kai - mid class"),
+                new Flashcard("ข (ขอ ไข่)", "kho khai - high class"),
+                new Flashcard("ค (คอ ควาย)", "kho khwai - low class"),
+                new Flashcard("ง (งอ งู)", "ngo ngu - low class"),
+                new Flashcard("จ (จอ จาน)", "cho chan - mid class")
+        );
+
+        get("/showrandcard", (req, res) -> {
+            res.type("application/json");
+            Random r = new Random();
+            Flashcard card = cards.get(r.nextInt(cards.size()));
+            return gson.toJson(card);
+        });
+
+        System.out.println("✅ Server running on http://localhost:4567");
     }
 }
