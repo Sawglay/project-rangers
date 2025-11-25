@@ -92,7 +92,7 @@ public class Server {
                 new Flashcard("ก (กอ ไก่)", "ko kai - mid class")
         );
 
-        get("/showrandcard", (req, res) -> {
+       get("/randflashcard", (req, res) -> {
             res.type("application/json");
             Random r = new Random();
             Flashcard card = cards.get(r.nextInt(cards.size()));
