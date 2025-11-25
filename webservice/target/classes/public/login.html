@@ -1,181 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Tech Ninja Login</title>
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
-
+  <title>Login</title>
+  <style>
     body {
-        margin: 0;
-        height: 100vh;
-        background: #050816 url('https://i.ibb.co/S3rG9t4/thunder-tech-bg.jpg') center/cover no-repeat fixed;
-        font-family: 'Orbitron', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        color: white;
+      background: #0a0a0a;
+      font-family: Arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
     }
 
-    /* Softer cute flash */
-    .flash-screen {
-        position: fixed;
-        top: 0; 
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(158, 217, 255, 0.55);
-        pointer-events: none;
-        opacity: 0;
-        mix-blend-mode: screen;
-        animation: flashEffect 7s infinite;
-    }
-
-    @keyframes flashEffect {
-        0%, 82%, 100% { opacity: 0; }
-        84% { opacity: 0.7; }
-        86% { opacity: 0; }
-    }
-
-    .panel {
-        background: rgba(6, 8, 24, 0.85);
-        border: 2px solid #7ff0ff;
-        width: 360px;
-        padding: 28px 26px 24px;
-        border-radius: 20px;
-        box-shadow: 0 0 25px rgba(127, 240, 255, 0.7);
-        text-align: center;
-        backdrop-filter: blur(10px);
-    }
-
-    h2 {
-        margin: 0 0 4px;
-        font-size: 22px;
-        letter-spacing: 1px;
-        text-shadow: 0 0 10px #7ff0ff;
-    }
-
-    .subtitle {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        margin-bottom: 18px;
-        opacity: 0.85;
+    .box {
+      background: #1c1c1c;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
     }
 
     input {
-        width: 100%;
-        padding: 10px 12px;
-        margin: 6px 0;
-        background: rgba(5, 8, 24, 0.95);
-        border: 1px solid #7ff0ff;
-        border-radius: 10px;
-        color: white;
-        font-size: 13px;
-        font-family: Arial, sans-serif;
-        outline: none;
-        transition: 0.25s;
-    }
-
-    input::placeholder {
-        color: #a6e9ff;
-        font-size: 12px;
-    }
-
-    input:focus {
-        box-shadow: 0 0 10px #7ff0ff;
-        transform: translateY(-1px);
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
     }
 
     button {
-        width: 100%;
-        margin-top: 12px;
-        padding: 11px;
-        background: linear-gradient(135deg, #7ff0ff, #a5b4fc);
-        border: none;
-        border-radius: 999px;
-        font-weight: bold;
-        color: #020617;
-        cursor: pointer;
-        letter-spacing: 1px;
-        font-size: 13px;
-        transition: 0.25s;
-        box-shadow: 0 0 14px rgba(165, 180, 252, 0.8);
+      padding: 10px 20px;
+      border: none;
+      background: cyan;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
     }
 
-    button:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 0 22px rgba(165, 180, 252, 1);
+    p {
+      color: red;
     }
-
-    #output {
-        font-size: 11px;
-        margin-top: 10px;
-        white-space: pre-wrap;
-        font-family: "Courier New", monospace;
-        color: #c4efff;
-        text-align: left;
-        max-height: 90px;
-        overflow-y: auto;
-        padding-top: 4px;
-    }
-
-    /* Small emoji badge */
-    .badge {
-        display: inline-block;
-        margin-bottom: 8px;
-        font-size: 24px;
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="flash-screen"></div>
+  <div class="box">
+    <h2>Login</h2>
 
-<div class="panel">
-    <div class="badge">⚡🧑‍💻⚡</div>
-    <h2>TECH NINJA LOGIN</h2>
-    <div class="subtitle">Student Ranger Access Console</div>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
 
-    <form id="loginForm">
-        <input id="username" type="text" placeholder="Enter ninja codename" required>
-        <input id="password" type="password" placeholder="Secret access key" required>
-        <button type="submit">ENGAGE</button>
-    </form>
+    <button onclick="login()">Login</button>
 
-    <pre id="output"></pre>
-</div>
+    <p id="error"></p>
+  </div>
 
-<script>
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  <script>
+    function login() {
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
 
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const output = document.getElementById("output");
-    output.textContent = "Authenticating ninja credentials...";
-
-    try {
-        const res = await fetch("/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
-
-        const txt = await res.text();
-        output.textContent = `STATUS: ${res.status}\n${txt}`;
-
-        if (res.status === 200) {
-            const d = JSON.parse(txt);
-            localStorage.setItem("username", d.username);
-            localStorage.setItem("token", d.token);
-            window.location = "welcome.html";
-        }
-    } catch (err) {
-        output.textContent = "Network Error: " + err;
+      if (user === "alice" && pass === "secret") {
+        window.location.href = "welcome.html";
+      } else {
+        document.getElementById("error").innerText = "Wrong username or password!";
+      }
     }
-});
-</script>
+  </script>
+
 </body>
 </html>
