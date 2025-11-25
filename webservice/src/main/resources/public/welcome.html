@@ -1,11 +1,323 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>TEST WELCOME</title>
+  <meta charset="UTF-8" />
+  <title>Thai Flashcards | Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #e2e8f0;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 22px;
+      padding: 32px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 40px rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.6s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.7rem;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .username {
+      color: cyan;
+    }
+
+    .sub-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #a0aec0;
+      margin-bottom: 24px;
+    }
+
+    /* BUTTONS */
+    button,
+    a.btn {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 2px solid cyan;
+      background: transparent;
+      color: cyan;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      font-family: "Poppins", Arial, sans-serif;
+      white-space: nowrap;
+    }
+
+    button:hover,
+    a.btn:hover {
+      background: cyan;
+      color: #000;
+      box-shadow: 0 0 18px cyan;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      border-color: #a0aec0;
+      color: #a0aec0;
+    }
+
+    .btn-secondary:hover {
+      background: #a0aec0;
+      color: #000;
+      box-shadow: 0 0 15px #a0aec0;
+    }
+
+    .btn-danger {
+      border-color: #ff4d4d;
+      color: #ffb3b3;
+    }
+
+    .btn-danger:hover {
+      background: #ff4d4d;
+      color: #000;
+      box-shadow: 0 0 18px #ff4d4d;
+    }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    /* GUEST VIEW */
+    #guestActions {
+      text-align: center;
+    }
+
+    .hint {
+      color: #a0aec0;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    /* CARD AREA */
+    .stage {
+      margin: 24px 0 10px;
+      perspective: 1200px;
+    }
+
+    .card3d {
+      width: 100%;
+      height: 260px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top, #111827, #020617);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+      backface-visibility: hidden;
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-align: center;
+      color: #e2e8f0;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      background: radial-gradient(circle at top, #1f2933, #111827);
+      border-color: rgba(244, 114, 182, 0.8);
+      box-shadow: 0 0 25px rgba(244, 114, 182, 0.4);
+    }
+
+    .card3d.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .click-hint {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      font-style: italic;
+    }
+
+    .status {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      font-style: italic;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 22px 18px;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      .card3d {
+        height: 230px;
+      }
+      .face {
+        font-size: 1.1rem;
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
-<body style="background: #123; color: #fff; font-family: Arial;">
-  <h1>IF YOU SEE THIS, WELCOME.HTML IS CORRECT ✅</h1>
-  <p>Path: src/main/resources/public/welcome.html</p>
+<body>
+  <div class="shell">
+    <h2>Welcome, <span class="username" id="username">Guest</span>!</h2>
+    <p class="sub-text">Thai consonant flashcard trainer</p>
+
+    <!-- Guest view -->
+    <div id="guestActions">
+      <p class="hint">
+        You are not logged in. Please login first to use the flashcards.
+      </p>
+      <div class="actions-row">
+        <a class="btn" href="login.html">Go to Login</a>
+        <a class="btn btn-secondary" href="index.html">Back to Home</a>
+      </div>
+    </div>
+
+    <!-- Logged in user view -->
+    <div id="userActions" class="hidden">
+      <div class="actions-row">
+        <button id="nextBtn">📚 Next Card</button>
+        <button class="btn btn-secondary" id="flipBtn">🔁 Flip</button>
+        <button class="btn btn-danger" id="logoutBtn">🚪 Logout</button>
+      </div>
+
+      <div class="stage">
+        <div class="card3d" id="card3d">
+          <div class="face front" id="frontFace">Press “Next Card” to begin</div>
+          <div class="face back" id="backFace">Back side</div>
+        </div>
+      </div>
+
+      <p class="click-hint">Tip: Click the card or use the Flip button to reveal the answer.</p>
+      <p class="status" id="status"></p>
+    </div>
+  </div>
+
+  <script>
+    // LOGIN / GUEST TOGGLE
+    const username = localStorage.getItem('username');
+    const usernameEl = document.getElementById('username');
+    const guestActions = document.getElementById('guestActions');
+    const userActions = document.getElementById('userActions');
+
+    if (username) {
+      usernameEl.textContent = username;
+      guestActions.classList.add('hidden');
+      userActions.classList.remove('hidden');
+    } else {
+      usernameEl.textContent = 'Guest';
+      guestActions.classList.remove('hidden');
+      userActions.classList.add('hidden');
+    }
+
+    // ELEMENTS
+    const nextBtn = document.getElementById('nextBtn');
+    const flipBtn = document.getElementById('flipBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const card3d = document.getElementById('card3d');
+    const frontFace = document.getElementById('frontFace');
+    const backFace = document.getElementById('backFace');
+    const statusEl = document.getElementById('status');
+
+    function setStatus(msg) {
+      statusEl.textContent = msg || '';
+    }
+
+    // LOAD RANDOM CARD FROM /showrandcard
+    async function loadCard() {
+      setStatus('Loading card...');
+      card3d.classList.remove('flipped');
+
+      try {
+        const res = await fetch('/showrandcard');
+        if (!res.ok) {
+          setStatus('Failed to load card: ' + res.status);
+          return;
+        }
+        const card = await res.json();
+        frontFace.textContent = card.front || '(no front)';
+        backFace.textContent = card.back || '(no back)';
+        setStatus('');
+      } catch (e) {
+        setStatus('Network error: ' + (e.message || e));
+      }
+    }
+
+    // BUTTON EVENTS
+    nextBtn?.addEventListener('click', loadCard);
+
+    flipBtn?.addEventListener('click', () => {
+      card3d.classList.toggle('flipped');
+    });
+
+    card3d?.addEventListener('click', () => {
+      card3d.classList.toggle('flipped');
+    });
+
+    logoutBtn?.addEventListener('click', () => {
+      if (confirm('Logout?')) {
+        localStorage.removeItem('username');
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
+      }
+    });
+
+    // AUTO LOAD FIRST CARD IF LOGGED IN
+    if (username) {
+      loadCard();
+    }
+  </script>
 </body>
 </html>
