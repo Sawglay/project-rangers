@@ -35,6 +35,20 @@
       backdrop-filter: blur(12px);
       animation: fadeUp 0.6s ease;
     }
+    .card-counter {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid cyan;
+  color: cyan;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  z-index: 5;
+  pointer-events: none;
+}
+
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(25px); }
@@ -235,6 +249,7 @@
 
       <div class="stage">
         <div class="card3d" id="card3d">
+          <div class="card-counter" id="cardCounter">0 / 13</div>
           <div class="face front" id="frontFace">Press “Next Card” to begin</div>
           <div class="face back" id="backFace">Back side</div>
         </div>
@@ -271,6 +286,17 @@
     const backFace = document.getElementById('backFace');
     const statusEl = document.getElementById('status');
 
+    // ✅ Counter setup
+const cardCounter = document.getElementById('cardCounter');
+const TOTAL_CARDS = 13; 
+const seenSet = new Set();
+
+function updateCounter() {
+  const used = seenSet.size;
+  cardCounter.textContent = `${used} / ${TOTAL_CARDS}`;
+}
+
+
     function setStatus(msg) {
       statusEl.textContent = msg || '';
     }
@@ -289,6 +315,13 @@
         const card = await res.json();
         frontFace.textContent = card.front || '(no front)';
         backFace.textContent = card.back || '(no back)';
+        // Count card
+        if (!seenSet.has(key)) {
+          seenSet.add(key);
+          const key = card.front + card.back;
+      }
+        updateCounter();
+
         setStatus('');
       } catch (e) {
         setStatus('Network error: ' + (e.message || e));
