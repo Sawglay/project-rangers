@@ -249,7 +249,7 @@
 
       <div class="stage">
         <div class="card3d" id="card3d">
-          <div class="card-counter" id="cardCounter">0 / 13</div>
+          <div id="cardCounter" class="card-counter">0 / 13</div>
           <div class="face front" id="frontFace">Press “Next Card” to begin</div>
           <div class="face back" id="backFace">Back side</div>
         </div>
@@ -294,7 +294,16 @@ const seenSet = new Set();
 function updateCounter() {
   const used = seenSet.size;
   cardCounter.textContent = `${used} / ${TOTAL_CARDS}`;
+if (used >= TOTAL_CARDS) {
+  nextBtn.disabled = true;
+  flipBtn.disabled = true;
+  card3d.style.pointerEvents = "none";
+  setStatus("🎉 All cards completed!");
 }
+
+}
+updateCounter();
+
 
 
     function setStatus(msg) {
@@ -302,31 +311,39 @@ function updateCounter() {
     }
 
     // LOAD RANDOM CARD FROM /showrandcard
-    async function loadCard() {
-      setStatus('Loading card...');
-      card3d.classList.remove('flipped');
+// LOAD RANDOM CARD FROM /randflashcard (fixed)
+async function loadCard() {
+  setStatus('Loading card...');
+  card3d.classList.remove('flipped');
 
-      try {
-        const res = await fetch('/randflashcard');
-        if (!res.ok) {
-          setStatus('Failed to load card: ' + res.status);
-          return;
-        }
-        const card = await res.json();
-        frontFace.textContent = card.front || '(no front)';
-        backFace.textContent = card.back || '(no back)';
-        // Count card
-        if (!seenSet.has(key)) {
-          seenSet.add(key);
-          const key = card.front + card.back;
-      }
-        updateCounter();
-
-        setStatus('');
-      } catch (e) {
-        setStatus('Network error: ' + (e.message || e));
-      }
+  try {
+    const res = await fetch('/randflashcard', { cache: 'no-store' });
+    if (!res.ok) {
+      setStatus('Failed to load card: ' + res.status);
+      return;
     }
+
+    const card = await res.json();
+
+    // update faces
+    frontFace.textContent = card.front || '(no front)';
+    backFace.textContent = card.back || '(no back)';
+
+    // Count unique cards (use a stable key)
+    const key = (card.front || '') + '|' + (card.back || '');
+    if (!seenSet.has(key)) {
+      seenSet.add(key);
+    }
+
+    // update UI counter
+    updateCounter();
+    setStatus('');
+  } catch (e) {
+    setStatus('Network error: ' + (e.message || e));
+    console.error('loadCard error:', e);
+  }
+}
+
 
     // BUTTON EVENTS
     nextBtn?.addEventListener('click', loadCard);
