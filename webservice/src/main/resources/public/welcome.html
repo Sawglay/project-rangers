@@ -257,9 +257,17 @@
 
       <p class="click-hint">Tip: Click the card or use the Flip button to reveal the answer.</p>
       <p class="status" id="status"></p>
+
+      <!-- finished message -->
+      <div id="finishedActions" class="hidden" style="text-align:center;margin-top:14px;">
+        <div id="finishedMsg" style="margin-bottom:10px;font-weight:700;color:#00ffd5;">
+          🎉 Congratulations — you reviewed all 13 cards!
+        </div>
+        <button id="startAgainBtn" class="btn" style="padding:8px 18px;">🔁 Start Again</button>
+      </div>
     </div>
   </div>
-
+ 
   <script>
     // LOGIN / GUEST TOGGLE
     const username = localStorage.getItem('username');
@@ -294,16 +302,39 @@ const seenSet = new Set();
 function updateCounter() {
   const used = seenSet.size;
   cardCounter.textContent = `${used} / ${TOTAL_CARDS}`;
-if (used >= TOTAL_CARDS) {
-  nextBtn.disabled = true;
-  flipBtn.disabled = true;
-  card3d.style.pointerEvents = "none";
-  setStatus("🎉 All cards completed!");
-}
-
+  if (used >= TOTAL_CARDS) {
+    nextBtn.disabled = true;
+    flipBtn.disabled = true;
+    card3d.style.pointerEvents = "none";
+    setStatus("🎉 All cards completed!");
+    // show finished UI
+    document.getElementById('finishedActions').classList.remove('hidden');
+  } else {
+    // hide finished UI while still in progress
+    document.getElementById('finishedActions').classList.add('hidden');
+    nextBtn.disabled = false;
+    flipBtn.disabled = false;
+    card3d.style.pointerEvents = "";
+  }
 }
 updateCounter();
 
+// Start again button — reset progress
+const startAgainBtn = document.getElementById('startAgainBtn');
+startAgainBtn?.addEventListener('click', () => {
+  if (!confirm('Start again from the beginning?')) return;
+  seenSet.clear();
+  updateCounter();
+  setStatus('Restarting...');
+  // re-enable interactions and load a fresh card
+  nextBtn.disabled = false;
+  flipBtn.disabled = false;
+  card3d.style.pointerEvents = "";
+  setTimeout(() => {
+    setStatus('');
+    loadCard();
+  }, 300);
+});
 
 
     function setStatus(msg) {
