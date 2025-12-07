@@ -254,6 +254,13 @@
           <div class="face back" id="backFace">Back side</div>
         </div>
       </div>
+            <!-- Learned button: appears only after card was seen before AND you flip it -->
+      <div style="text-align:center; margin-top:12px;">
+        <button id="learnedBtn" class="btn btn-secondary hidden" style="min-width:200px;">
+          ⭐ I've learned this already
+        </button>
+      </div>
+
 
       <p class="click-hint">Tip: Click the card or use the Flip button to reveal the answer.</p>
       <p class="status" id="status"></p>
@@ -285,7 +292,7 @@
       userActions.classList.add('hidden');
     }
 
-    // ELEMENTS
+   // ELEMENTS
     const nextBtn = document.getElementById('nextBtn');
     const flipBtn = document.getElementById('flipBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -293,15 +300,28 @@
     const frontFace = document.getElementById('frontFace');
     const backFace = document.getElementById('backFace');
     const statusEl = document.getElementById('status');
+    const learnedBtn = document.getElementById('learnedBtn');
+    const finishedActions = document.getElementById('finishedActions');
+    const startAgainBtn = document.getElementById('startAgainBtn');
+
 
     // ✅ Counter setup
 const cardCounter = document.getElementById('cardCounter');
 const TOTAL_CARDS = 13; 
 const seenSet = new Set();
+const seenCounts = {};        // key -> how many times this card has appeared
+let currentKey = null;
+let allowShowLearned = false; // only true from 2nd time we see that card
+
+function setStatus(msg) {
+      statusEl.textContent = msg || '';
+    }
+
 
 function updateCounter() {
   const used = seenSet.size;
   cardCounter.textContent = `${used} / ${TOTAL_CARDS}`;
+
   if (used >= TOTAL_CARDS) {
     nextBtn.disabled = true;
     flipBtn.disabled = true;
@@ -319,11 +339,11 @@ function updateCounter() {
 }
 updateCounter();
 
-// Start again button — reset progress
-const startAgainBtn = document.getElementById('startAgainBtn');
-startAgainBtn?.addEventListener('click', () => {
-  if (!confirm('Start again from the beginning?')) return;
-  seenSet.clear();
+  // Restart progress
+    startAgainBtn?.addEventListener('click', () => {
+      if (!confirm('Start again from the beginning?')) return;
+      seenSet.clear();
+      
   updateCounter();
   setStatus('Restarting...');
   // re-enable interactions and load a fresh card
@@ -346,6 +366,10 @@ startAgainBtn?.addEventListener('click', () => {
 async function loadCard() {
   setStatus('Loading card...');
   card3d.classList.remove('flipped');
+  learnedBtn.classList.add('hidden');   // hide button for new card
+      allowShowLearned = false;
+      currentKey = null;
+
 
   try {
     const res = await fetch('/randflashcard', { cache: 'no-store' });
@@ -362,9 +386,19 @@ async function loadCard() {
 
     // Count unique cards (use a stable key)
     const key = (card.front || '') + '|' + (card.back || '');
+    currentKey = key;
+
     if (!seenSet.has(key)) {
       seenSet.add(key);
     }
+
+        // how many times this card has appeared
+    const oldCount = seenCounts[key] || 0;
+    const newCount = oldCount + 1;
+    seenCounts[key] = newCount;
+
+    // allow "I've learned this already" only from 2nd time onwards
+    allowShowLearned = newCount >= 2;
 
     // update UI counter
     updateCounter();
@@ -376,15 +410,26 @@ async function loadCard() {
 }
 
 
-    // BUTTON EVENTS
-    nextBtn?.addEventListener('click', loadCard);
+   nextBtn?.addEventListener('click', loadCard);
 
     flipBtn?.addEventListener('click', () => {
       card3d.classList.toggle('flipped');
+      // show button only if this card has been seen before
+      if (allowShowLearned) {
+        learnedBtn.classList.remove('hidden');
+      }
     });
 
     card3d?.addEventListener('click', () => {
       card3d.classList.toggle('flipped');
+      if (allowShowLearned) {
+        learnedBtn.classList.remove('hidden');
+      }
+    });
+
+    learnedBtn?.addEventListener('click', () => {
+      if (!currentKey) return;
+      setStatus('⭐ You marked this card as learned.');
     });
 
     logoutBtn?.addEventListener('click', () => {
@@ -399,6 +444,6 @@ async function loadCard() {
     if (username) {
       loadCard();
     }
-  </script>
-</body>
-</html>
+    </script>
+    </body>
+    </html>
