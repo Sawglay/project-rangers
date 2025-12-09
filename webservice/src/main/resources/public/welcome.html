@@ -311,7 +311,29 @@ const TOTAL_CARDS = 13;
 const seenSet = new Set();
 const seenCounts = {};        // key -> how many times this card has appeared
 let currentKey = null;
-let allowShowLearned = false; // only true from 2nd time we see that card
+let allowShowLearned = false; // true when card was seen before (we'll check)
+// Persisted learned keys (localStorage) — sanitize bad data
+let stored = [];
+try {
+  stored = JSON.parse(localStorage.getItem('learnedKeys') || '[]');
+  if (!Array.isArray(stored)) stored = [];
+} catch (err) {
+  stored = [];
+}
+stored = stored
+  .filter(x => typeof x === 'string' && x.trim().length > 0)
+  .map(x => x.trim());
+
+const learnedKeys = new Set(stored);
+
+function saveLearnedKeys() {
+  localStorage.setItem('learnedKeys', JSON.stringify([...learnedKeys]));
+}
+
+function isLearned(key) {
+  return typeof key === 'string' && key.length > 0 && learnedKeys.has(key);
+}
+
 
 function setStatus(msg) {
       statusEl.textContent = msg || '';
@@ -360,6 +382,33 @@ updateCounter();
     function setStatus(msg) {
       statusEl.textContent = msg || '';
     }
+    function refreshLearnedButton() {
+  // hide by default
+  learnedBtn.classList.add('hidden');
+
+  if (!currentKey) return;
+
+  // If this card is already learned, hide the button and show "Learned" style
+  if (isLearned(currentKey)) {
+    learnedBtn.classList.add('hidden');
+    learnedBtn.innerText = '✅ Learned!';
+    learnedBtn.style.borderColor = 'lime';
+    learnedBtn.style.color = 'lime';
+    return;
+  }
+
+  // show only if allowed (we set allowShowLearned in loadCard) AND the card is flipped
+  const flipped = card3d.classList.contains('flipped');
+  if (allowShowLearned && flipped) {
+    learnedBtn.classList.remove('hidden');
+    learnedBtn.innerText = "⭐ I've learned this already";
+    learnedBtn.style.borderColor = '';
+    learnedBtn.style.color = '';
+  } else {
+    learnedBtn.classList.add('hidden');
+  }
+}
+
 
     // LOAD RANDOM CARD FROM /showrandcard
 // LOAD RANDOM CARD FROM /randflashcard (fixed)
@@ -385,20 +434,29 @@ async function loadCard() {
     backFace.textContent = card.back || '(no back)';
 
     // Count unique cards (use a stable key)
+    // stable key for this card
     const key = (card.front || '') + '|' + (card.back || '');
     currentKey = key;
 
+    // add to seenSet (first time seen will add)
     if (!seenSet.has(key)) {
       seenSet.add(key);
     }
 
-        // how many times this card has appeared
+    // increment how many times this card has appeared
     const oldCount = seenCounts[key] || 0;
     const newCount = oldCount + 1;
     seenCounts[key] = newCount;
 
-    // allow "I've learned this already" only from 2nd time onwards
-    allowShowLearned = newCount >= 2;
+    // allow showing the "I've learned" button if the card has been seen at least once
+    // (we will still only display the button when the user flips the card)
+// only allow the "I've learned" button once the card has been shown at least twice
+// (first show = user first sees it; second show = we allow "I've learned" after they had a chance to read it again)
+allowShowLearned = (newCount >= 2) && !isLearned(key);
+
+    // ensure learned UI matches this card
+    refreshLearnedButton();
+
 
     // update UI counter
     updateCounter();
@@ -413,24 +471,31 @@ async function loadCard() {
    nextBtn?.addEventListener('click', loadCard);
 
     flipBtn?.addEventListener('click', () => {
-      card3d.classList.toggle('flipped');
-      // show button only if this card has been seen before
-      if (allowShowLearned) {
-        learnedBtn.classList.remove('hidden');
-      }
-    });
+  card3d.classList.toggle('flipped');
+  // refresh button after flip
+  setTimeout(refreshLearnedButton, 10);
+});
 
-    card3d?.addEventListener('click', () => {
-      card3d.classList.toggle('flipped');
-      if (allowShowLearned) {
-        learnedBtn.classList.remove('hidden');
-      }
-    });
+card3d?.addEventListener('click', () => {
+  card3d.classList.toggle('flipped');
+  setTimeout(refreshLearnedButton, 10);
+ });
 
-    learnedBtn?.addEventListener('click', () => {
-      if (!currentKey) return;
-      setStatus('⭐ You marked this card as learned.');
-    });
+learnedBtn?.addEventListener('click', () => {
+  if (!currentKey || typeof currentKey !== 'string' || currentKey.trim().length === 0) {
+    console.warn('learnedBtn clicked but currentKey invalid:', currentKey);
+    return;
+  }
+  const key = currentKey.trim();
+  learnedKeys.add(key);
+  saveLearnedKeys();
+
+  // update UI immediately
+  refreshLearnedButton();
+  setStatus('⭐ You marked this card as learned.');
+  console.log('Marked learned:', key);
+});
+
 
     logoutBtn?.addEventListener('click', () => {
       if (confirm('Logout?')) {
