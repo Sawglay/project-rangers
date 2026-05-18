@@ -50,3 +50,11 @@ project-rangers/
 ```
 
 ---
+## Prerequisites
+
+| Requirement | Version |
+|---|---|
+| Java (JDK) | 21 or later |
+| Maven | 3.x (or use the included `mvnw` wrapper) |
+
+---
