@@ -17,3 +17,36 @@ A Java-based Thai consonant learning application built for Global Academy. The p
 - [Educational Modules](#educational-modules)
 
 ---
+## Overview
+
+It teaches Thai consonants through two interfaces:
+
+- **Web App** — A browser-based flashcard viewer with a secure login page, served by an embedded Spark Java HTTP server.
+- **Desktop Game** — A Swing GUI multiple-choice quiz that presents Thai consonant characters and tests romanized pronunciation.
+
+---
+
+## Project Structure
+
+```
+project-rangers/
+├── FakeGUIDemo.java                 # OOP/Swing polymorphism demo
+├── slides/
+│   ├── ClosedShape.java             # Base shape class (inheritance demo)
+│   ├── Rectangle.java               # Rectangle extending ClosedShape
+│   └── TestShapes.java              # Shape unit tests
+└── webservice/                      # Maven web application
+    ├── pom.xml                      # Maven build configuration
+    ├── mvnw / mvnw.cmd              # Maven wrapper scripts
+    └── src/main/
+        ├── java/org/global/academy/
+        │   ├── Server.java          # Spark HTTP server (login + flashcard API)
+        │   ├── ThaiFlashcardGame.java  # Swing desktop quiz game
+        │   └── VerifyHash.java      # SHA-256 password hash verifier (CLI utility)
+        └── resources/public/
+            ├── index.html           # Landing page
+            ├── login.html           # Login form
+            └── welcome.html         # Flashcard viewer (post-login)
+```
+
+---
