@@ -78,3 +78,25 @@ bash mvnw clean package
 ```powershell
 .\mvnw clean package
 ```
+This compiles the source and produces a fat JAR at:
+```
+target/spark-hello-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+ 
+---
+ 
+## Running the Web Server
+ 
+```bash
+java -jar target/spark-hello-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+ 
+Once started, open your browser and navigate to:
+ 
+```
+http://localhost:8080
+```
+ 
+- **Landing page:** `http://localhost:8080/index.html`
+- **Login page:** `http://localhost:8080/login.html`
+---
