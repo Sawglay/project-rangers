@@ -100,3 +100,19 @@ http://localhost:8080
 - **Landing page:** `http://localhost:8080/index.html`
 - **Login page:** `http://localhost:8080/login.html`
 ---
+## Running the Desktop App
+ 
+The `ThaiFlashcardGame` Swing application can be run directly from an IDE (e.g. IntelliJ IDEA or Eclipse) by executing its `main` method, or compiled and run from the command line:
+ 
+```bash
+# From the webservice directory, after building:
+java -cp target/spark-hello-1.0-SNAPSHOT-jar-with-dependencies.jar org.global.academy.ThaiFlashcardGame
+```
+ 
+The game presents Thai consonant cards one at a time with three multiple-choice romanized pronunciation options. Your score is displayed at the end of the round.
+ 
+---
+ 
+## API Reference
+ 
+The Spark server exposes two JSON endpoints.
