@@ -58,3 +58,23 @@ project-rangers/
 | Maven | 3.x (or use the included `mvnw` wrapper) |
 
 ---
+## Getting Started
+ 
+### 1. Clone or extract the project
+ 
+```bash
+unzip project-rangers-main.zip
+cd project-rangers-main/webservice
+```
+ 
+### 2. Build the project
+ 
+**macOS / Linux:**
+```bash
+bash mvnw clean package
+```
+ 
+**Windows:**
+```powershell
+.\mvnw clean package
+```
